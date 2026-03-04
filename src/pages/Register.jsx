@@ -5,8 +5,10 @@ import ErroAlert from "../components/ErroAlert";
 import { useState } from "react";
 
 const Register = () => {
-  const { registerUser, errorMsg } = useAuthContext();
+  const { registerUser,resendActivationEmail, errorMsg } = useAuthContext();
   const [successMsg, setSuccessMsg] = useState("");
+  const [registeredEmail, setRegisteredEmail] = useState("");
+
 
   const {
     register,
@@ -22,6 +24,7 @@ const Register = () => {
       console.log(response);
       if (response.success) {
         setSuccessMsg(response.message);
+        setRegisteredEmail(data.email);
         // setTimeout(() => navigate("/login"), 3000);
       }
     } catch (error) {
@@ -52,6 +55,21 @@ const Register = () => {
               <span>{successMsg}</span>
             </div>
           )}
+          {successMsg && (
+              <div className="mt-3">
+                <button
+                  className="btn btn-outline btn-primary w-full"
+                  onClick={async () => {
+                    const response = await resendActivationEmail(registeredEmail);
+                    if (response?.success) {
+                      setSuccessMsg(response.message);
+                    }
+                  }}
+                >
+                  Resend Activation Email
+                </button>
+              </div>
+            )}
 
           <h2 className="card-title text-2xl font-bold">Sign Up</h2>
           <p className="text-base-content/70">

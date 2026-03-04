@@ -9,6 +9,8 @@ import PrivateRoute from "../components/PrivateRoute.jsx";
 import ActivateAccount from "../components/Registration/ActivateAccount.jsx";
 import DashboardLayout from "../layouts/DashboardLayout.jsx";
 import Profile from "../pages/Profile.jsx";
+import ForgotPassword from "../pages/ForgotPassword.jsx";
+import ResetPasswordConfirm from "../pages/ResetPasswordConfirm.jsx";
 
 const AppRoutes = () => {
   return (
@@ -34,6 +36,11 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
         <Route path="profile" element={<Profile />} />
       </Route>
+
+      {/* Forgot password */}
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/password/reset/confirm/:uid/:token" element={<ResetPasswordConfirm />}
+        />
     </Routes>
   );
 };

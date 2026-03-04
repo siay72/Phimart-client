@@ -89,6 +89,41 @@ const useAuth = () => {
     }
   };
 
+// Request Password Reset
+const requestPasswordReset = async (email) => {
+  setErrorMsg("");
+  try {
+    await apiClient.post("/auth/users/reset_password/", {
+      email,
+    });
+
+    return {
+      success: true,
+      message: "Password reset email sent. Check your inbox.",
+    };
+  } catch (error) {
+    return handleAPIError(error, "Failed to send reset email");
+  }
+};
+
+// Confirm Reset Password
+const confirmPasswordReset = async (data) => {
+  setErrorMsg("");
+  try {
+    await apiClient.post(
+      "/auth/users/reset_password_confirm/",
+      data
+    );
+
+    return {
+      success: true,
+      message: "Password reset successful. You can login now.",
+    };
+  } catch (error) {
+    return handleAPIError(error, "Password reset failed");
+  }
+};
+
   // Register User
   const registerUser = async (userData) => {
     setErrorMsg("");
@@ -103,6 +138,23 @@ const useAuth = () => {
       return handleAPIError(error, "Registration Failed! Try Again");
     }
   };
+  // Resend Activation Email
+const resendActivationEmail = async (email) => {
+  setErrorMsg("");
+
+  try {
+    await apiClient.post("/auth/users/resend_activation/", {
+      email,
+    });
+
+    return {
+      success: true,
+      message: "Activation email resent successfully.",
+    };
+  } catch (error) {
+    return handleAPIError(error, "Failed to resend activation email");
+  }
+};
 
   // Logout User
   const logoutUser = () => {
@@ -119,6 +171,9 @@ const useAuth = () => {
     logoutUser,
     updateUserProfile,
     changePassword,
+    requestPasswordReset,
+    confirmPasswordReset,
+    resendActivationEmail,
   };
 };
 
